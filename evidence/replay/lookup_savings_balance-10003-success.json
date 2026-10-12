@@ -1,0 +1,38 @@
+{
+  "capabilityPath": "evidence/latest/capability.json",
+  "name": "lookup_savings_balance",
+  "version": 1,
+  "params": {
+    "memberId": "10003"
+  },
+  "variant": null,
+  "result": {
+    "status": "success",
+    "outputs": {
+      "savingsBalance": "$15,240.33"
+    },
+    "evidence": {
+      "notes": [
+        {
+          "stepId": "navigate-members",
+          "detail": "navigate /members"
+        },
+        {
+          "stepId": "type-member-number",
+          "detail": "type textbox \"Member number\""
+        },
+        {
+          "stepId": "click-look-up",
+          "detail": "click button \"Look up\""
+        },
+        {
+          "stepId": "extract-savings-balance",
+          "detail": "extract savingsBalance=$15,240.33"
+        }
+      ],
+      "url": "http://127.0.0.1:4173/members/10003",
+      "observed": "columnheader \"Horizon Core — Horizon Credit Union\"; columnheader \"Member detail\"; columnheader \"Member\"; cell \"Name\"; cell \"Mina Chen\"; cell \"Member number\"; cell \"10003\"; cell \"Savings balance\"; cell \"$15,240.33\"; cell \"Share draft balance\"; cell \"$0.00\"; cell \"Status\""
+    }
+  },
+  "screenshot": "lookup_savings_balance-10003-success.png"
+}

@@ -236,6 +236,14 @@ const server = createServer((req, res) => {
   void onRequest(req, res);
 });
 
+server.on("error", (error: NodeJS.ErrnoException) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(`Horizon Core is already running at http://${HOST}:${PORT}`);
+    process.exit(1);
+  }
+  throw error;
+});
+
 server.listen(PORT, HOST, () => {
   console.log(`Horizon Core sample app at http://${HOST}:${PORT}`);
   console.log(`  base    http://${HOST}:${PORT}/members`);

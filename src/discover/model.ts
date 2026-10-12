@@ -123,7 +123,10 @@ async function postJson(url: string, headers: Record<string, string>, payload: u
     body: JSON.stringify(payload),
     signal: AbortSignal.timeout(60_000),
   });
-  if (!response.ok) throw new Error(`Model request failed (${response.status}).`);
+  if (!response.ok) {
+    const detail = await errorDetail(response);
+    throw new Error(detail ? `Model request failed (${response.status}): ${detail}` : `Model request failed (${response.status}).`);
+  }
   const parsed: unknown = await response.json();
   if (!parsed || typeof parsed !== "object") throw new Error("Model response was empty.");
   return parsed as Record<string, unknown>;
@@ -146,4 +149,25 @@ function firstChoiceContent(body: Record<string, unknown>): string {
 
 function present(value: string | undefined): value is string {
   return Boolean(value && value.trim());
+}
+
+async function errorDetail(response: Response): Promise<string> {
+  try {
+    const message = findErrorMessage(await response.json());
+    return message.replace(/\s+/g, " ").slice(0, 240);
+  } catch {
+    return "";
+  }
+}
+
+function findErrorMessage(parsed: unknown): string {
+  const record = Array.isArray(parsed) ? parsed[0] : parsed;
+  if (!record || typeof record !== "object") return "";
+  if ("error" in record) {
+    const error = record.error;
+    if (typeof error === "string") return error;
+    if (error && typeof error === "object" && "message" in error && typeof error.message === "string") return error.message;
+  }
+  if ("message" in record && typeof record.message === "string") return record.message;
+  return "";
 }

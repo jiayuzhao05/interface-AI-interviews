@@ -1,0 +1,16 @@
+{
+  "id": "discovery-20261012210217",
+  "goal": "Look up member 10001 and read the savings balance on the detail screen. Enter 10001 in the member number field and submit the lookup. Do not open a sub-account.",
+  "status": "exhausted",
+  "steps": [
+    {
+      "index": 1,
+      "action": "navigate /members",
+      "reason": "Navigate to the members lookup page.",
+      "result": "ok",
+      "detail": "/members",
+      "url": "http://127.0.0.1:4173/members",
+      "screenshot": "01.png"
+    }
+  ]
+}

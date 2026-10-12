@@ -1,0 +1,33 @@
+{
+  "capabilityPath": "evidence/latest/capability.json",
+  "name": "lookup_savings_balance",
+  "version": 1,
+  "params": {
+    "memberId": "99999"
+  },
+  "variant": null,
+  "result": {
+    "status": "outcome",
+    "code": "member_not_found",
+    "outputs": {},
+    "evidence": {
+      "notes": [
+        {
+          "stepId": "navigate-members",
+          "detail": "navigate /members"
+        },
+        {
+          "stepId": "type-member-number",
+          "detail": "type textbox \"Member number\""
+        },
+        {
+          "stepId": "click-look-up",
+          "detail": "click button \"Look up\""
+        }
+      ],
+      "url": "http://127.0.0.1:4173/members?error=missing&memberNumber=99999",
+      "observed": "No member matches."
+    }
+  },
+  "screenshot": "lookup_savings_balance-99999-member_not_found.png"
+}

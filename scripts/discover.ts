@@ -1,8 +1,8 @@
+import { copyFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { discover } from "../src/discover/loop.ts";
 import { lookupRequest } from "../src/discover/lookup.ts";
 import { createModelClient } from "../src/discover/model.ts";
-import { replay } from "../src/replay/engine.ts";
 import { PlaywrightSurface } from "../src/surface/playwright-surface.ts";
 
 const origin = process.env.HORIZON_ORIGIN ?? "http://127.0.0.1:4173";
@@ -34,14 +34,10 @@ try {
   if (result.status !== "success") {
     process.exitCode = 1;
   } else {
-    const replayed = await replay(surface, {
-      capability: result.capability,
-      params: { memberId },
-      origin,
-    });
-    console.log(`replay: ${replayed.status}`);
-    if (replayed.status === "success") console.log(`savings balance: ${replayed.outputs.savingsBalance}`);
-    if (replayed.status !== "success") process.exitCode = 1;
+    const latest = join("evidence", "latest");
+    await mkdir(latest, { recursive: true });
+    await copyFile(join(evidenceDir, "capability.json"), join(latest, "capability.json"));
+    console.log("npm run replay -- evidence/latest/capability.json");
   }
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));

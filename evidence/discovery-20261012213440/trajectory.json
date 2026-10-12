@@ -1,0 +1,43 @@
+{
+  "id": "discovery-20261012213440",
+  "goal": "Look up member 10001 and read the savings balance on the detail screen. Enter 10001 in the member number field and submit the lookup. Do not open a sub-account.",
+  "status": "success",
+  "steps": [
+    {
+      "index": 1,
+      "action": "navigate /members",
+      "reason": "Go to the members screen to look up member 10001",
+      "result": "ok",
+      "detail": "/members",
+      "url": "http://127.0.0.1:4173/members",
+      "screenshot": "01.png"
+    },
+    {
+      "index": 2,
+      "action": "type textbox \"Member number\"",
+      "reason": "Enter member number 10001 into the member number field",
+      "result": "ok",
+      "detail": "entered 10001",
+      "url": "http://127.0.0.1:4173/members",
+      "screenshot": "02.png"
+    },
+    {
+      "index": 3,
+      "action": "click button \"Look up\"",
+      "reason": "Click the Look up button to submit the member number lookup.",
+      "result": "ok",
+      "detail": "button \"Look up\"",
+      "url": "http://127.0.0.1:4173/members/10001",
+      "screenshot": "03.png"
+    },
+    {
+      "index": 4,
+      "action": "extract nearby \"Savings balance\"",
+      "reason": "Extract the savings balance from the member detail screen.",
+      "result": "ok",
+      "detail": "read $4,280.15",
+      "url": "http://127.0.0.1:4173/members/10001",
+      "screenshot": "04.png"
+    }
+  ]
+}
