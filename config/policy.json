@@ -1,0 +1,5 @@
+{
+  "allowedHosts": ["127.0.0.1"],
+  "allowedActions": ["navigate", "click", "type", "extract"],
+  "irreversibleNames": ["Confirm", "Submit", "Transfer", "Delete"]
+}

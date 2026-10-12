@@ -1,0 +1,22 @@
+{
+  "name": "interface-ai-interviews",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "horizon": "node apps/horizon/server.ts",
+    "lookup": "node scripts/lookup-balance.ts",
+    "discover": "node scripts/discover.ts",
+    "handoff": "node scripts/handoff.ts",
+    "agent": "node scripts/agent.ts",
+    "test": "node --test src/policy/policy.test.ts src/schema/capability.test.ts src/replay/signals.test.ts src/replay/engine.test.ts src/discover/compile.test.ts src/discover/loop.test.ts src/session/run.test.ts src/catalog/catalog.test.ts src/surface/locate.test.ts src/surface/surface.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "playwright": "^1.64.0",
+    "zod": "^3.25.76"
+  }
+}

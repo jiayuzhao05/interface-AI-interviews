@@ -1,0 +1,76 @@
+{
+  "name": "open_sub_account",
+  "version": 1,
+  "description": "Open a sub-account for a member and stop on Submit so a person can confirm it.",
+  "appId": "horizon-core",
+  "surface": "web",
+  "inputs": [
+    {
+      "name": "memberId",
+      "type": "string",
+      "description": "Member number.",
+      "required": true,
+      "pattern": "^[0-9]+$"
+    },
+    {
+      "name": "product",
+      "type": "string",
+      "description": "Visible product name, such as Holiday club.",
+      "required": true
+    },
+    {
+      "name": "nickname",
+      "type": "string",
+      "description": "Nickname for the new sub-account.",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "submissionStatus",
+      "type": "string",
+      "description": "Status text after a person submits the confirmation.",
+      "pattern": "^Sub-account submitted\\.$"
+    }
+  ],
+  "steps": [
+    {
+      "id": "open-form",
+      "action": "navigate",
+      "path": "/members/{{inputs.memberId}}/sub-account"
+    },
+    {
+      "id": "choose-product",
+      "action": "type",
+      "target": { "role": "combobox", "name": "Product" },
+      "text": "{{inputs.product}}"
+    },
+    {
+      "id": "enter-nickname",
+      "action": "type",
+      "target": { "role": "textbox", "name": "Nickname" },
+      "text": "{{inputs.nickname}}"
+    },
+    {
+      "id": "continue",
+      "action": "click",
+      "target": { "role": "button", "name": "Continue" }
+    },
+    {
+      "id": "submit",
+      "action": "click",
+      "target": { "role": "button", "name": "Submit" }
+    },
+    {
+      "id": "read-status",
+      "action": "extract",
+      "target": { "nearbyText": "Status" },
+      "bind": "submissionStatus"
+    }
+  ],
+  "success": {
+    "path": "/members/{{inputs.memberId}}/sub-account/submitted",
+    "outputs": ["submissionStatus"]
+  },
+  "outcomes": []
+}

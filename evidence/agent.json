@@ -1,0 +1,150 @@
+{
+  "catalog": {
+    "capabilities": [
+      {
+        "name": "lookup_savings_balance",
+        "version": 1,
+        "description": "Look up a member on Horizon Core and return the savings balance shown on the detail screen.",
+        "inputs": [
+          {
+            "name": "memberId",
+            "type": "string",
+            "description": "Member number. On the Northline variant the same value is entered in the field labeled Account ID.",
+            "required": true,
+            "pattern": "^[0-9]+$"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "savingsBalance",
+            "type": "string",
+            "description": "Savings balance text shown beside Savings balance, including the dollar sign.",
+            "pattern": "^\\$[0-9,]+\\.[0-9]{2}$"
+          }
+        ],
+        "variants": [
+          {
+            "id": "horizon-variant",
+            "description": "Northline Credit Union configuration of Horizon Core. Apply this overlay to a base capability: prefix every path, replace field labels, and dismiss the branch notice before continuing."
+          }
+        ]
+      },
+      {
+        "name": "open_sub_account",
+        "version": 1,
+        "description": "Open a sub-account for a member and stop on Submit so a person can confirm it.",
+        "inputs": [
+          {
+            "name": "memberId",
+            "type": "string",
+            "description": "Member number.",
+            "required": true,
+            "pattern": "^[0-9]+$"
+          },
+          {
+            "name": "product",
+            "type": "string",
+            "description": "Visible product name, such as Holiday club.",
+            "required": true
+          },
+          {
+            "name": "nickname",
+            "type": "string",
+            "description": "Nickname for the new sub-account.",
+            "required": true
+          }
+        ],
+        "outputs": [
+          {
+            "name": "submissionStatus",
+            "type": "string",
+            "description": "Status text after a person submits the confirmation.",
+            "pattern": "^Sub-account submitted\\.$"
+          }
+        ],
+        "variants": [
+          {
+            "id": "horizon-variant",
+            "description": "Northline Credit Union configuration of Horizon Core. Apply this overlay to a base capability: prefix every path, replace field labels, and dismiss the branch notice before continuing."
+          }
+        ]
+      }
+    ]
+  },
+  "calls": [
+    {
+      "name": "lookup_savings_balance",
+      "params": {
+        "memberId": "10001"
+      },
+      "variant": null,
+      "result": {
+        "status": "success",
+        "outputs": {
+          "savingsBalance": "$4,280.15"
+        },
+        "evidence": {
+          "notes": [
+            {
+              "stepId": "open-search",
+              "detail": "navigate /members"
+            },
+            {
+              "stepId": "enter-member-id",
+              "detail": "type textbox \"Member number\""
+            },
+            {
+              "stepId": "submit-lookup",
+              "detail": "click button \"Look up\""
+            },
+            {
+              "stepId": "read-balance",
+              "detail": "extract savingsBalance=$4,280.15"
+            }
+          ],
+          "url": "http://127.0.0.1:4173/members/10001",
+          "observed": "columnheader \"Horizon Core — Horizon Credit Union\"; columnheader \"Member detail\"; columnheader \"Member\"; cell \"Name\"; cell \"Ada Okonkwo\"; cell \"Member number\"; cell \"10001\"; cell \"Savings balance\"; cell \"$4,280.15\"; cell \"Share draft balance\"; cell \"$250.00\"; cell \"Status\""
+        }
+      }
+    },
+    {
+      "name": "lookup_savings_balance",
+      "params": {
+        "memberId": "10002"
+      },
+      "variant": "horizon-variant",
+      "result": {
+        "status": "success",
+        "outputs": {
+          "savingsBalance": "$910.00"
+        },
+        "evidence": {
+          "notes": [
+            {
+              "stepId": "open-search",
+              "detail": "navigate /cu/members"
+            },
+            {
+              "stepId": "open-search",
+              "detail": "Dismissed \"Branch notice\" via dismiss-branch-notice."
+            },
+            {
+              "stepId": "enter-member-id",
+              "detail": "type textbox \"Account ID\""
+            },
+            {
+              "stepId": "submit-lookup",
+              "detail": "click button \"Look up\""
+            },
+            {
+              "stepId": "read-balance",
+              "detail": "extract savingsBalance=$910.00"
+            }
+          ],
+          "url": "http://127.0.0.1:4173/cu/members/10002",
+          "observed": "columnheader \"Horizon Core — Northline Credit Union\"; columnheader \"Member detail\"; columnheader \"Member\"; cell \"Name\"; cell \"Luis Ortega\"; cell \"Account ID\"; cell \"10002\"; cell \"Savings balance\"; cell \"$910.00\"; cell \"Share draft balance\"; cell \"$120.50\"; cell \"Status\""
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "horizon-variant",
+  "appId": "horizon-core",
+  "description": "Northline Credit Union configuration of Horizon Core. Apply this overlay to a base capability: prefix every path, replace field labels, and dismiss the branch notice before continuing.",
+  "routePrefix": "/cu",
+  "labelMap": {
+    "Member number": "Account ID"
+  },
+  "recoverable": [
+    {
+      "id": "dismiss-branch-notice",
+      "whenText": "Branch notice",
+      "action": "click",
+      "target": {
+        "role": "button",
+        "name": "Dismiss"
+      }
+    }
+  ]
+}
